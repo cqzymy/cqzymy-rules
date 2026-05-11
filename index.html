@@ -47,7 +47,8 @@ table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 th { text-align: left; color: #8b949e; font-weight: 600; padding: 8px 10px; border-bottom: 1px solid #2f3336; }
 td { padding: 8px 10px; color: #c9d1d9; border-bottom: 1px solid #21262d; }
 tr:last-child td { border-bottom: none; }
-.log-time { color: #8b949e; white-space: nowrap; }
+.log-time { color: #8b949e; white-space: nowrap; width: 55px; }
+.log-date { color: #4ade80; font-weight: 700; }
 .footer { text-align: center; font-size: 0.73rem; color: #8b949e; padding: 24px; border-top: 1px solid #2f3336; margin-top: 40px; }
 .footer a { color: #60a5fa; }
 .text-sm { font-size: 0.75rem; }
@@ -164,29 +165,43 @@ tr:last-child td { border-bottom: none; }
       <tr><td>仓库</td><td>cqzymy/cqzymy-rules</td></tr>
       <tr><td>GitHub Pages</td><td><a href="https://cqzymy.github.io/cqzymy-rules/" target="_blank">https://cqzymy.github.io/cqzymy-rules/</a></td></tr>
       <tr><td>发布分支</td><td><strong class="text-yellow">gh-pages</strong>（main无效，每次必须推此分支）</td></tr>
-      <tr><td>Token</td><td>[Token · 已屏蔽 · 见GitHub Secrets]</td></tr>
+      <tr><td>Token</td><td>[已屏蔽 · 见GitHub Secrets]</td></tr>
     </table>
   </div>
 
-  <div class="section-title" id="log">📝 今日操作日志（2026-05-12）</div>
+  <div class="section-title" id="log">📝 操作日志</div>
   <div class="card">
     <table>
-      <tr><th style="width:50px">时间</th><th>操作内容</th></tr>
-      <tr><td class="log-time">01:xx</td><td>Claude Code v2.1.138 安装完成 + MiniMax API 接入验证成功</td></tr>
-      <tr><td class="log-time">01:xx</td><td>HunyuanVideo fp8模型 + VAE 下载完成，llava 文本编码器下载中（约5GB/15GB）</td></tr>
-      <tr><td class="log-time">01:xx</td><td>web-search-free 技能包创建（Bing搜索，无需API Key）</td></tr>
-      <tr><td class="log-time">01:xx</td><td>hunyuan-video 技能包创建（ComfyUI本地视频生成）</td></tr>
-      <tr><td class="log-time">01:xx</td><td>技能包全面盘点：189个技能，8大类分类完成</td></tr>
-      <tr><td class="log-time">01:xx</td><td>融合版 v3.2 重新设计排版：导航+8大板块+清晰卡片布局</td></tr>
-      <tr><td class="log-time">01:xx</td><td>确认 GitHub Pages 发布分支为 gh-pages</td></tr>
-      <tr><td class="log-time">01:xx</td><td>JSON结构化提示词方法记忆（生图/生视频用）</td></tr>
+      <tr><th style="width:70px">日期</th><th style="width:55px">时间</th><th>操作内容</th></tr>
+
+      <!-- 2026-05-11 -->
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>Claude Code v2.1.138 完成安装配置，接入 MiniMax Anthropic 兼容 API（零额外成本）</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>GitHub 仓库 cqzymy/cqzymy-rules 创建完成，GitHub Pages 配置成功</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>产品配图完成 14 张（仿古水车/门窗/农耕文化/实木家居/古建构件/景观风车/木亭等），存放 D:\AI产出\hermes\图片\</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>热层每日维护系统正常运行，新增 5 张记忆卡片</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>建立格式模仿规则：识别→询问→制作→核对，存入 format_copying_rules</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>ComfyUI API 整合指南学习完成，摘要存入 wiki/learned-knowledge/</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>Claude Code 技能包安装：baidu-search / cn-economic-data / code-review / hunyuan-video / markdown写作 / research-company 等</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>Kane 明确记忆系统要求：说"记住"=立即写入MEMORY.md；说"你自己记一下"=强制记忆命令立即执行</td></tr>
+      <tr style="background: rgba(74,222,128,0.05)"><td class="log-date">05-11</td><td class="log-time">白天</td><td>确立 GitHub 推送规则：只有 Kane 说"更新github/推送github"才推，平时只更新本地</td></tr>
+
+      <!-- 2026-05-12 -->
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>Claude Code v2.1.138 安装完成 + MiniMax API 接入验证成功</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>HunyuanVideo fp8模型 + VAE 下载完成，llava 文本编码器下载中（约5GB/15GB）</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>web-search-free 技能包创建（Bing搜索，无需API Key）</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>hunyuan-video 技能包创建（ComfyUI本地视频生成）</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>技能包全面盘点：189个技能，8大类分类完成</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>融合版 v3.2 重新设计排版：导航+8大板块+清晰卡片布局</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>确认 GitHub Pages 发布分支为 gh-pages</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>JSON结构化提示词方法记忆（生图/生视频用）</td></tr>
+      <tr><td class="log-date">05-12</td><td class="log-time">01:xx</td><td>GitHub Secret Scanning 拦截 Token 推送（Token写入HTML），已脱敏处理并重新设计 v3.2 页面</td></tr>
     </table>
   </div>
 
 </div>
 
 <div class="footer">
-  超萌二号进化档案 v3.2 · 更新于 2026-05-12 01:35 ·
+  超萌二号进化档案 v3.2 · 更新于 2026-05-12 01:46 ·
   <a href="https://cqzymy.github.io/cqzymy-rules/" target="_blank">GitHub Pages</a>
 </div>
 
