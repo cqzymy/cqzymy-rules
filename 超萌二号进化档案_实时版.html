@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧬 超萌二号进化档案 v3.1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0f0f2f 100%);
+            min-height: 100vh;
+            color: #e0e0ff;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(120,80,200,0.3), rgba(80,120,255,0.3));
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(120,80,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(120,80,255,0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #a78bfa, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        .header .subtitle { color: #a5b4fc; margin-top: 10px; font-size: 1.1em; position: relative; z-index: 1; }
+
+        /* 实时时钟 */
+        .live-clock {
+            margin-top: 15px; position: relative; z-index: 1;
+        }
+        .live-clock .time {
+            font-size: 2.2em; font-weight: bold;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+        }
+        .live-clock .date {
+            font-size: 0.95em; color: #a5b4fc; margin-top: 5px;
+        }
+        .live-indicator {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(34,197,94,0.2); padding: 6px 16px;
+            border-radius: 20px; margin-top: 15px; font-size: 0.9em;
+            color: #4ade80; position: relative; z-index: 1;
+        }
+        .live-dot {
+            width: 8px; height: 8px; background: #4ade80;
+            border-radius: 50%; animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px; margin-bottom: 30px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30,30,60,0.8), rgba(40,40,80,0.6));
+            border-radius: 16px; padding: 25px; text-align: center;
+            border: 1px solid rgba(120,80,255,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(120,80,255,0.3);
+        }
+        .stat-card .number {
+            font-size: 2.5em; font-weight: bold;
+            background: linear-gradient(135deg, #a78bfa, #818cf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-card .label { color: #a5b4fc; margin-top: 8px; font-size: 0.9em; }
+        .stat-card .sub { color: #6b7280; font-size: 0.75em; margin-top: 4px; }
+
+        /* 区块 */
+        .section {
+            background: linear-gradient(135deg, rgba(30,30,60,0.8), rgba(40,40,80,0.6));
+            border-radius: 16px; padding: 25px; margin-bottom: 25px;
+            border: 1px solid rgba(120,80,255,0.2);
+        }
+        .section h2 {
+            color: #a78bfa; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(120,80,255,0.3);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section h2 .icon { font-size: 1.2em; }
+
+        /* 技能列表 */
+        .skill-list { display: flex; flex-direction: column; gap: 12px; }
+        .skill-item { display: flex; align-items: center; gap: 15px; }
+        .skill-bar {
+            flex: 1; height: 30px; background: rgba(60,60,100,0.5);
+            border-radius: 15px; overflow: hidden;
+        }
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #a78bfa, #818cf8);
+            border-radius: 15px; display: flex; align-items: center;
+            padding-left: 15px; color: white; font-size: 0.85em;
+        }
+        .skill-name { width: 130px; color: #c4b5fd; text-align: right; font-size: 0.85em; }
+
+        /* 平台和模型 */
+        .platform-grid, .model-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .platform-tag, .model-tag {
+            background: rgba(60,60,100,0.6); padding: 8px 16px;
+            border-radius: 8px; border: 1px solid rgba(120,80,255,0.3); font-size: 0.9em;
+        }
+
+        /* 时间线 */
+        .timeline { position: relative; padding-left: 30px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
+            width: 2px; background: linear-gradient(to bottom, #a78bfa, #818cf8);
+        }
+        .timeline-item {
+            position: relative; margin-bottom: 20px; padding: 15px;
+            background: rgba(40,40,80,0.5); border-radius: 12px;
+            border-left: 3px solid #a78bfa;
+        }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -24px; top: 20px;
+            width: 12px; height: 12px; background: #a78bfa;
+            border-radius: 50%; border: 3px solid #1a1a3a;
+        }
+        .timeline-date { color: #818cf8; font-size: 0.9em; margin-bottom: 8px; }
+        .timeline-content p { color: #c4b5fd; line-height: 1.6; }
+
+        /* 尾部 */
+        .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 0.9em; }
+        .footer .update-time { color: #818cf8; }
+
+        /* 自动刷新提示 */
+        .auto-refresh {
+            text-align: center; padding: 10px;
+            color: #4ade80; font-size: 0.85em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>🧬 超萌二号进化档案</h1>
+            <p class="subtitle">实时同步 · 见证AI成长</p>
+            <div class="live-clock">
+                <div class="time" id="live-time">--:--:--</div>
+                <div class="date" id="live-date">----年--月--日</div>
+            </div>
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span id="status-text">数据收集中...</span>
+            </div>
+        </div>
+
+        <!-- 主统计 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">274</div>
+                <div class="label">技能包数量</div>
+                <div class="sub">实时统计</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">4</div>
+                <div class="label">连接平台</div>
+                <div class="sub">真实检测</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">2</div>
+                <div class="label">AI模型</div>
+                <div class="sub">在线</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">0</div>
+                <div class="label">定时任务</div>
+                <div class="sub">活跃运行</div>
+            </div>
+        </div>
+
+        <!-- 记忆系统状态 -->
+        <div class="section">
+            <h2><span class="icon">💾</span> 记忆系统状态</h2>
+            <div class="platform-grid">
+                <span class="platform-tag">📌 灵犀记忆系统 v2.9</span>
+                <span class="platform-tag">✅ 正常运行</span>
+                <span class="platform-tag">⏰ hourly-memory-guard</span>
+                <span class="platform-tag">📊 2 张记忆</span>
+                <span class="platform-tag">🎨 ComfyUI: 在线</span>
+            </div>
+        </div>
+
+        <!-- 技能统计 -->
+        <div class="section">
+            <h2><span class="icon">🛠️</span> 技能领域分布</h2>
+            <div class="skill-list">
+                <div class="skill-item">
+                    <span class="skill-name">opencode-skills-内容创作</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 100.0%">38个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">carocut-视频制作</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 31.57894736842105%">12个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">videocut-skills-视频剪辑</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 15.789473684210526%">6个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">browser-automation</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 10.526315789473683%">4个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">image-generation</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 10.526315789473683%">4个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">social-marketing</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 7.894736842105263%">3个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">video-production</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 7.894736842105263%">3个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">optimize-context智能上下</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 5.263157894736842%">2个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">jasper-recall本地 RAG </span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 5.263157894736842%">2个</div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">intrusive-thoughtsAI</span>
+                    <div class="skill-bar">
+                        <div class="skill-fill" style="width: 2.631578947368421%">1个</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最近活动 -->
+        <div class="section">
+            <h2><span class="icon">📅</span> 最近备份活动</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-05-08</div>
+                    <div class="timeline-content">
+                        <p>📝 20260508_social-marketing</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-05-08</div>
+                    <div class="timeline-content">
+                        <p>📝 20260508_intelligent-cont</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-05-08</div>
+                    <div class="timeline-content">
+                        <p>📝 20260508_intelligent-cont</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-05-07</div>
+                    <div class="timeline-content">
+                        <p>📝 2026-05-07_MEMORY.md</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-05-07</div>
+                    <div class="timeline-content">
+                        <p>📝 2026-05-07_Hermes记忆系统与成长机</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 平台 -->
+        <div class="section">
+            <h2><span class="icon">🌐</span> 连接平台</h2>
+            <div class="platform-grid"><span class="platform-tag">✅ 网页端聊天(8787)</span><span class="platform-tag">✅ ComfyUI (生图)</span><span class="platform-tag">✅ 微信 (WeChat)</span><span class="platform-tag">✅ QQ (QQBot)</span><span class="platform-tag">✅ Claude Code (编程助手)</span>
+            </div>
+        </div>
+
+        <!-- 模型链路 -->
+        <div class="section">
+            <h2><span class="icon">🤖</span> AI模型链路</h2>
+            <div class="model-grid"><span class="model-tag">🤖 MiniMax-M2 (线上)</span><span class="model-tag">🤖 Ollama: qwen2.5vl, qwen3.5, nomic-embed-text</span><span class="model-tag">✅ Claude Code + MiniMax (claude-sonnet-4)</span>
+            </div>
+        </div>
+
+        
+<!-- Claude Code -->
+<div class="section">
+<h2><span class="icon">🔧</span> Claude Code 编程助手</h2>
+<div style="color: #c4b5fd; line-height: 1.8;">
+<p><strong>版本</strong>：v2.1.138（Windows npm 全局安装）</p>
+<p><strong>API</strong>：MiniMax Anthropic 兼容端点（0额外成本）</p>
+<p><strong>规则</strong>：CLAUDE.md 位于 E:\Ai_hermes\.claude\（从该目录启动时自动读取）</p>
+<p><strong>工作区</strong>：E:\Ai_hermes\claude-code\</p>
+<p><strong>内置技能</strong>：/batch /debug /loop /claude-api /simplify /fewer-permission-prompts</p>
+<p><strong>自定义技能</strong>：code-review / research-company / cn-economic-data / markdown写作 / baidu-search（5个）</p>
+<p><strong>启动命令</strong>：Set-Location "E:\Ai_hermes\claude-code"; claude</p>
+</div>
+</div>
+
+<!-- 尾部 -->
+        <div class="footer">
+            <p>最后数据更新: <span class="update-time">2026-05-11 21:57:37</span></p>
+            <p>页面自动刷新: 60秒 | 时钟每秒跳动</p>
+        </div>
+
+        <div class="auto-refresh">🔄 页面将在 <span id="countdown">60</span> 秒后刷新...</div>
+    </div>
+
+    <script>
+        // ========== 秒表时钟 ==========
+        function updateClock() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hour = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const sec = String(now.getSeconds()).padStart(2, '0');
+
+            document.getElementById('live-time').textContent = hour + ':' + min + ':' + sec;
+            document.getElementById('live-date').textContent = year + '年' + month + '月' + day + '日';
+        }
+        updateClock();
+        setInterval(updateClock, 1000);  // 每秒更新
+
+        // ========== 倒计时刷新 ==========
+        let seconds = 60;
+        const countdownEl = document.getElementById('countdown');
+        const statusEl = document.getElementById('status-text');
+        statusEl.textContent = '实时运行中';
+
+        setInterval(() => {
+            seconds--;
+            countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+                location.reload();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
